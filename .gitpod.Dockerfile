@@ -6,4 +6,3 @@ FROM gitpod/workspace-postgres
 #
 # More information: https://www.gitpod.io/docs/config-docker/
 
-RUN pip install -r requirements.txt
