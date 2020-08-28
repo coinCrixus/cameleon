@@ -3,4 +3,5 @@ image:
 
 tasks:
   - init: pip install -r ./requirements.txt
-    command: virtualenv venv
+    command: python3 -m venv
+    command: source ./venv/bin/activate
