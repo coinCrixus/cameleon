@@ -5,3 +5,7 @@ FROM gitpod/workspace-postgres
 # RUN brew install bastet
 #
 # More information: https://www.gitpod.io/docs/config-docker/
+
+RUN python3 -m venv /workspace/cameleon/venv
+RUN source /workspace/cameleon/venv/bin/activate
+RUN pip install -r /workspace/cameleon/requirements.txt

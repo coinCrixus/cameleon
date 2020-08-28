@@ -3,5 +3,3 @@ image:
 
 tasks:
   - init: pip install -r ./requirements.txt
-    command: python3 -m venv /workspace/cameleon/venv
-    command: source /workspace/cameleon/venv/bin/activate
