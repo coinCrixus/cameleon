@@ -6,6 +6,4 @@ FROM gitpod/workspace-postgres
 #
 # More information: https://www.gitpod.io/docs/config-docker/
 
-RUN python3 -m venv venv
-RUN source ./venv/bin/activate
 RUN pip install -r requirements.txt
