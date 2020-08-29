@@ -7,40 +7,25 @@ from sqlalchemy.orm import sessionmaker
 from dotenv import load_dotenv
 load_dotenv()
 
+from models import CoinGeckoCoin
 
 db_string = os.getenv("DB_STRING")
 
 db = create_engine(db_string)  
 base = declarative_base()
 
-class Film(base):  
-    __tablename__ = 'films'
-
-    title = Column(String, primary_key=True)
-    director = Column(String)
-    year = Column(String)
-
 Session = sessionmaker(db)  
 session = Session()
 
-base.metadata.create_all(db)
-
 # Create 
-doctor_strange = Film(title="Doctor Strange", director="Scott Derrickson", year="2016")  
-session.add(doctor_strange)  
+coin = CoinGeckoCoin('reserve0121','RSR','Reserve protocol')
+session.add(coin)  
 session.commit()
 
 # Read
-films = session.query(Film)  
-for film in films:  
-    print(film.title)
+coins = session.query(CoinGeckoCoin)  
+for coin in coins:  
+    print(coin.symbol)
 
-# Update
-doctor_strange.title = "Some2016Film"  
-session.commit()
-
-# Delete
-session.delete(doctor_strange)  
-session.commit() 
 
 
