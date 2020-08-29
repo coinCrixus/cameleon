@@ -35,7 +35,7 @@ exchanges = json.loads(response.text)
 
 for exchange in exchanges:
     exchangeObject = CoinGeckoExchange(exchange['id'], exchange['name'], exchange['year_established'], exchange['country'], exchange['description'], exchange['url']
-    , exchange['image'], exchange['has_trading_incentive'], exchange['trust_score'], exchange['trust_score_rank'], exchange['trade_volume_btc'], exchange['trade_volume_btc_normalized']
+    , exchange['image'], exchange['has_trading_incentive'], exchange['trust_score'], exchange['trust_score_rank'], exchange['trade_volume_24h_btc'], exchange['trade_volume_btc_24h_normalized']
     )
     session.merge(exchangeObject)
 
