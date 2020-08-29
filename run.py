@@ -19,18 +19,16 @@ base = declarative_base()
 Session = sessionmaker(db)  
 session = Session()
 
-# get json coingecko coin list https://api.coingecko.com/api/v3/coins/list
+# get json coingecko coin list
 response = requests.get("https://api.coingecko.com/api/v3/coins/list")
 coins    = json.loads(response.text)
 
 for coin in coins:
-    print(coin)
+    coinObject = CoinGeckoCoin(coin.id, coin.symbol, coin.name)
+    session.merge(coinObject)
 
+session.commit()
 
-# Create 
-#coin = CoinGeckoCoin('reserve0121','RSR','Reserve protocol')
-#session.merge(coin)  
-#session.commit()
 
 # Read
 #coins = session.query(CoinGeckoCoin)  
