@@ -53,8 +53,9 @@ exchanges = session.query(CoinGeckoExchange).filter(CoinGeckoExchange.deactivate
 for exchange in exchanges:
     pagenr = 1
     while pagenr > 0:
-
-        response = requests.get("https://api.coingecko.com/api/v3/exchanges/" + exchange.id + "/tickers?include_exchange_logo=true&page=1")
+        request_url = "https://api.coingecko.com/api/v3/exchanges/{}/tickers?include_exchange_logo=true&page={}".format(exchange.id,pagenr)
+        print(request_url)
+        response = requests.get(request_url)
         tickers = json.loads(response.text)
         if len(tickers) == 0 :
             pagenr = 0
