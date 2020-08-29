@@ -48,7 +48,8 @@ for exchange in exchanges:
 session.commit()
 
 # loop through exchanges and get tickers
-exchanges = session.query(CoinGeckoExchange).filter(CoinGeckoExchange.deactivated == False)
+#exchanges = session.query(CoinGeckoExchange).filter(CoinGeckoExchange.deactivated == False)
+exchanges = session.query(CoinGeckoExchange).All()
 
 for exchange in exchanges:
     pagenr = 1
