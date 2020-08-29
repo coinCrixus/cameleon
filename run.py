@@ -20,7 +20,7 @@ Session = sessionmaker(db)
 session = Session()
 
 # deactivate current records
-base.CoinGeckoCoin.query.update({CoinGeckoCoin.deactivated: True})
+session.query(CoinGeckoCoin).update({CoinGeckoCoin.deactivated: True})
 
 # get json coingecko coin list
 response = requests.get("https://api.coingecko.com/api/v3/coins/list")
