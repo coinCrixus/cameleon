@@ -47,6 +47,25 @@ for exchange in exchanges:
 
 session.commit()
 
+# loop through exchanges and get tickers
+exchanges = session.query(CoinGeckoExchange).filter_by(CoinGeckoExchange.deactivated == False)
+
+for exchange in exchanges:
+    pagenr = 1
+    while pagenr > 0:
+
+        response = requests.get("https://api.coingecko.com/api/v3/exchanges/" + exchange + "/tickers?include_exchange_logo=true&page=1")
+        tickers = json.loads(response.text)['tickers']
+        if len(tickers) == 0 :
+            pagenr = 0
+        else:
+            pagenr += 1
+            for ticker in tickers:
+                print(ticker)
+
+
+    
+
 
 # Read
 #coins = session.query(CoinGeckoCoin)  
