@@ -54,7 +54,7 @@ for exchange in exchanges:
     pagenr = 1
     while pagenr > 0:
 
-        response = requests.get("https://api.coingecko.com/api/v3/exchanges/" + exchange + "/tickers?include_exchange_logo=true&page=1")
+        response = requests.get("https://api.coingecko.com/api/v3/exchanges/" + exchange.id + "/tickers?include_exchange_logo=true&page=1")
         tickers = json.loads(response.text)
         if len(tickers) == 0 :
             pagenr = 0
