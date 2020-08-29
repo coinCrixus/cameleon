@@ -45,5 +45,14 @@ class CoinGeckoExchange(Base):
     def __init__(self, id, name, year_established, country, description, url, image, has_trading_incentive, trust_score, trust_score_rank,trade_volume_24h_btc
                 , trade_volume_24h_btc_normalized):
         self.id     = id
-        self.symbol = symbol
         self.name   = name
+        self.year_established = year_established
+        self.country = country
+        self.description = description
+        self.url = url
+        self.image = image
+        self.has_trading_incentive = has_trading_incentive
+        self.trust_score = trust_score
+        self.trust_score_rank = trust_score_rank
+        self.trade_volume_24h_btc = trade_volume_24h_btc
+        self.trade_volume_24h_btc_normalized = trade_volume_24h_btc_normalized
