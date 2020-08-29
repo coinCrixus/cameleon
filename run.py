@@ -9,7 +9,7 @@ from sqlalchemy.orm import sessionmaker
 from dotenv import load_dotenv
 load_dotenv()
 
-from models import CoinGeckoCoin,CoinGeckoExchange
+from models import CoinGeckoCoin,CoinGeckoExchange,CoinGeckoTicker
 
 
 # setup db connection session
@@ -27,7 +27,7 @@ response = requests.get("https://api.coingecko.com/api/v3/coins/list")
 coins    = json.loads(response.text)
 
 for coin in coins:
-    coinObject = CoinGeckoCoin(coin['id'], coin['symbol'], coin['name'], True)
+    coinObject = CoinGeckoCoin(coin['id'], coin['symbol'], coin['name'], False)
     session.merge(coinObject)
 
 session.commit()
@@ -42,7 +42,7 @@ exchanges = json.loads(response.text)
 for exchange in exchanges:
     exchangeObject = CoinGeckoExchange(exchange['id'], exchange['name'], exchange['year_established'], exchange['country'], exchange['description'], exchange['url']
     , exchange['image'], exchange['has_trading_incentive'], exchange['trust_score'], exchange['trust_score_rank'], exchange['trade_volume_24h_btc'], exchange['trade_volume_24h_btc_normalized']
-    , True)
+    , False)
     session.merge(exchangeObject)
 
 session.commit()
@@ -63,7 +63,21 @@ for exchange in exchanges:
         else:
             pagenr += 1
             for ticker in tickers:
-                print(ticker)
+                tickerObject = CoinGeckoTicker(exchange.id
+                , ticker['coin_id'], ticker['target_coin_id']
+                , ticker['base'], ticker['target']
+                , ticker['last'], ticker['volume']
+                , ticker['converted_last']['btc']
+                , ticker['converted_last']['eth']
+                , ticker['converted_last']['usd']
+                , ticker['converted_volume']['btc']
+                , ticker['converted_volume']['eth']
+                , ticker['converted_volume']['usd']
+                , ticker['trust_score'], ticker['bid_ask_spread_percentage'], ticker['timestamp']
+                , ticker['last_traded_at'], ticker['last_fetch_at'], ticker['is_anomaly']
+                , ticker['is_stale'], ticker['trade_url'],False)
+                session.merge(tickerObject)
+            session.commit()
 
 
     
