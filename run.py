@@ -57,7 +57,7 @@ for exchange in exchanges:
         request_url = "https://api.coingecko.com/api/v3/exchanges/{}/tickers?include_exchange_logo=true&page={}".format(exchange.id,pagenr)
         print(request_url)
         response = requests.get(request_url)
-        tickers = json.loads(response.text)
+        tickers = json.loads(response.text)['tickers']
         if len(tickers) == 0 :
             pagenr = 0
         else:
