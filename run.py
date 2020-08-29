@@ -1,6 +1,7 @@
 import os
 import json
 import requests
+import time
 
 from sqlalchemy import create_engine
 from sqlalchemy import Column,String
@@ -53,6 +54,7 @@ exchanges = session.query(CoinGeckoExchange).all()
 
 for exchange in exchanges:
     print("processing exchange [{}]".format(exchange.name))
+    time.sleep(10)
     pagenr = 1
     while pagenr > 0:
         request_url = "https://api.coingecko.com/api/v3/exchanges/{}/tickers?include_exchange_logo=true&page={}".format(exchange.id,pagenr)
