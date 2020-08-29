@@ -9,7 +9,7 @@ from sqlalchemy.orm import sessionmaker
 from dotenv import load_dotenv
 load_dotenv()
 
-from models import CoinGeckoCoin
+from models import CoinGeckoCoin,CoinGeckoExchange
 
 
 # setup db connection session
@@ -26,6 +26,18 @@ coins    = json.loads(response.text)
 for coin in coins:
     coinObject = CoinGeckoCoin(coin['id'], coin['symbol'], coin['name'])
     session.merge(coinObject)
+
+session.commit()
+
+# get json coingecko exchange list
+response = requests.get("https://api.coingecko.com/api/v3/exchanges")
+exchanges = json.loads(response.text)
+
+for exchange in exchanges:
+    exchangeObject = CoinGeckoExchange(exchange['id'], exchange['name'], exchange['year_established'], exchange['country'], exchange['description'], exchange['url']
+    , exchange['image'], exchange['has_trading_incentive'], exchange['trust_score'], exchange['trust_score_rank'], exchange['trade_volume_btc'], exchange['trade_volume_btc_normalized']
+    )
+    session.merge(exchangeObject)
 
 session.commit()
 
