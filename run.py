@@ -19,7 +19,7 @@ base = declarative_base()
 Session = sessionmaker(db)  
 session = Session()
 
-# deactivate current records
+# deactivate current coin records
 session.query(CoinGeckoCoin).update({CoinGeckoCoin.deactivated: True})
 
 # get json coingecko coin list
@@ -31,6 +31,9 @@ for coin in coins:
     session.merge(coinObject)
 
 session.commit()
+
+# deactivate current coin records
+session.query(CoinGeckoExchange).update({CoinGeckoExchange.deactivated: True})
 
 # get json coingecko exchange list
 response = requests.get("https://api.coingecko.com/api/v3/exchanges")
