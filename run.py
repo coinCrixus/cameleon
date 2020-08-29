@@ -52,10 +52,10 @@ session.commit()
 exchanges = session.query(CoinGeckoExchange).all()
 
 for exchange in exchanges:
+    print("processing exchange [{}]".format(exchange.name))
     pagenr = 1
     while pagenr > 0:
         request_url = "https://api.coingecko.com/api/v3/exchanges/{}/tickers?include_exchange_logo=true&page={}".format(exchange.id,pagenr)
-        print(request_url)
         response = requests.get(request_url)
         tickers = json.loads(response.text)['tickers']
         if len(tickers) == 0 :
