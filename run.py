@@ -19,7 +19,7 @@ session = Session()
 
 # Create 
 coin = CoinGeckoCoin('reserve0121','RSR','Reserve protocol')
-session.add(coin)  
+session.merge(coin)  
 session.commit()
 
 # Read
