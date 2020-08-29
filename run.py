@@ -24,7 +24,7 @@ response = requests.get("https://api.coingecko.com/api/v3/coins/list")
 coins    = json.loads(response.text)
 
 for coin in coins:
-    coinObject = CoinGeckoCoin(coin.id, coin.symbol, coin.name)
+    coinObject = CoinGeckoCoin(coin['id'], coin['symbol'], coin['name'])
     session.merge(coinObject)
 
 session.commit()
