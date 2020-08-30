@@ -2,6 +2,7 @@ import os
 import json
 import requests
 import time
+from datetime import datetime
 
 from sqlalchemy import create_engine
 from sqlalchemy import Column,String
@@ -24,7 +25,7 @@ session = Session()
 session.query(CoinGeckoCoin).update({CoinGeckoCoin.deactivated: True})
 
 # get json coingecko coin list
-print("updating coingecko coin list")
+print("{} updating coingecko coin list".format(datetime.now()))
 response = requests.get("https://api.coingecko.com/api/v3/coins/list")
 coins    = json.loads(response.text)
 
@@ -38,7 +39,7 @@ session.commit()
 session.query(CoinGeckoExchange).update({CoinGeckoExchange.deactivated: True})
 
 # get json coingecko exchange list
-print("updating coingecko exchange list")
+print("{} updating coingecko exchange list".format(datetime.now() ) )
 response = requests.get("https://api.coingecko.com/api/v3/exchanges")
 exchanges = json.loads(response.text)
 
@@ -55,13 +56,13 @@ session.commit()
 exchanges = session.query(CoinGeckoExchange).all()
 
 for exchange in exchanges:
-    print("processing exchange [{}]".format(exchange.name))
+    print("{} processing exchange [{}]".format(datetime.now() ,exchange.name))
     time.sleep(1)
     pagenr = 1
     while pagenr > 0:
         request_url = "https://api.coingecko.com/api/v3/exchanges/{}/tickers?include_exchange_logo=true&page={}".format(exchange.id,pagenr)
         response = requests.get(request_url)
-        print(request_url)
+        print("{} {}".format(datetime.now() , request_url))
         try:
             if response.status_code == 429:
                 print('Http code 429, trying againg in 2 seconds')
