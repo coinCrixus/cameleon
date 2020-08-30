@@ -13,7 +13,7 @@ from sqlalchemy.orm import sessionmaker
 from dotenv import load_dotenv
 load_dotenv()
 
-from models import CoinGeckoCoin,CoinGeckoExchange,CoinGeckoTicker
+from models import CoinGeckoCoin,CoinGeckoExchange,CoinGeckoTicker,CoinGeckoCoinData,CoinGeckoCoinTag
 
 # logging
 logging.basicConfig(filename='example.log',level=os.getenv('LOG_LEVEL'),format='%(asctime)s - %(levelname)s:%(message)s', datefmt='%d-%b-%y %H:%M:%S')
@@ -40,6 +40,71 @@ for coin in coins:
 
 session.commit()
 
+
+# get json coingeck coin data
+print("{} updating coingecko coin data".format(datetime.now()))
+logging.info("Updating coingecko coin data")
+
+# loop through coins and get coin data
+coins = session.query(CoinGeckoCoin).filter(CoinGeckoCoin.deactivated == False).all()
+for coin in coins:
+    print("{} processing coin [{}]".format(datetime.now() ,coin.id))
+    request_url = "https://api.coingecko.com/api/v3/coins/{}?localization=false&tickers=false&market_data=false&developer_data=false&sparkline=true".format(coin.id)
+    exit = False
+    while exit == False:
+        response = requests.get(request_url)
+        try:
+            if response.status_code == 429:
+                print('Http code 429, trying againg in 2 seconds')
+                time.sleep(2)
+            elif response.status_code == 200:
+                coinData = json.loads(response.text)
+                coinDataObject = CoinGeckoCoinData(
+                    coin.id,
+                    coinData.get('asset_platform_id'),
+                    coinData.get('asset_platform_id'),
+                    coinData.get('public_notice'),
+                    coinData.get('links').get('homepage'),
+                    coinData.get('links').get('twitter_screen_name'),
+                    coinData.get('links').get('telegram_channel_identifier'),
+                    coinData.get('image').get('thumb'),
+                    coinData.get('image').get('small'),
+                    coinData.get('image').get('large'),
+                    coinData.get('country_origin'),
+                    coinData.get('sentiment_votes_up_percentage'),
+                    coinData.get('sentiment_votes_down_percentage'),
+                    coinData.get('market_cap_rank'),
+                    coinData.get('coingecko_rank'),
+                    coinData.get('coingecko_score'),
+                    coinData.get('developer_score'),
+                    coinData.get('community_score'),
+                    coinData.get('liquidity_score'),
+                    coinData.get('public_interest_score'),
+                    coinData.get('community_data').get('twitter_followers'),
+                    coinData.get('community_data').get('telegram_channel_user_count'),
+                    True)
+                session.merge(coinDataObject)
+                
+
+                categories = coinData.get('categories')
+
+                for cat in categories:
+                    coinTagObject = CoinGeckoCoinTag(coin.id,'categories',cat,True)
+                    session.merge(coinTagObject)
+                
+                session.commit()
+                
+            else:
+                print("Error, httpcode {}".format(response.status_code))
+                exit = True
+        except Exception as e:
+            logging.error(e)
+            print("Error {}".format(e) )
+            exit = True
+            
+
+
+
 # deactivate current coin records
 session.query(CoinGeckoExchange).update({CoinGeckoExchange.deactivated: True})
 
@@ -58,7 +123,6 @@ for exchange in exchanges:
 session.commit()
 
 # loop through exchanges and get tickers
-#exchanges = session.query(CoinGeckoExchange).filter(CoinGeckoExchange.deactivated == False)
 exchanges = session.query(CoinGeckoExchange).all()
 
 for exchange in exchanges:
@@ -100,11 +164,12 @@ for exchange in exchanges:
                     session.commit()
             else:
                 print("Error, httpcode {}".format(response.status_code))
+                pagenr = 0
         except Exception as e:
-            pagenr = 0
             logging.error(e)
             print("Error {}".format(e) )
-
+            pagenr = 0
+            
     
 
 

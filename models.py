@@ -106,7 +106,7 @@ class CoinGeckoTicker(Base):
         self.trade_url            = trade_url
         self.deactivated          = deactivated
 
-class CoinGeckCoinData(Base):
+class CoinGeckoCoinData(Base):
     __tablename__ = 'coingecko_coindata'
     id                              = Column(String, primary_key=True)
     asset_platform_id               = Column(String)
@@ -159,7 +159,7 @@ class CoinGeckCoinData(Base):
         self.telegram_channel_user_count        = telegram_channel_user_count
         self.deactivated                        = deactivated
 
-class CoinGeckCoinTag(Base):
+class CoinGeckoCoinTag(Base):
     __tablename__ = 'coingecko_cointag'
     coin_id         = Column(String, primary_key=True)
     tag_group_id    = Column(String, primary_key=True)
