@@ -51,7 +51,9 @@ for coin in coins:
     print("{} processing coin [{}]".format(datetime.now() ,coin.id))
     request_url = "https://api.coingecko.com/api/v3/coins/{}?localization=false&tickers=false&market_data=false&developer_data=false&sparkline=true".format(coin.id)
     exit = False
-    while exit == False:
+    loops = 0
+    while exit == False or loops > 3:
+        loops+=1
         response = requests.get(request_url)
         try:
             if response.status_code == 429:
@@ -92,7 +94,7 @@ for coin in coins:
                     session.merge(coinTagObject)
                 
                 session.commit()
-                
+                exit = True
             else:
                 print("Error, httpcode {}".format(response.status_code))
                 exit = True
