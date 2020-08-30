@@ -100,9 +100,10 @@ for exchange in exchanges:
                     session.commit()
             else:
                 print("Error, httpcode {}".format(response.status_code))
-        except:
+        except Exception as e:
             pagenr = 0
-            print(response)
+            logging.error(e)
+            print("Error {}".format(e) )
 
     
 
