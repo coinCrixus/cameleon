@@ -64,8 +64,8 @@ for exchange in exchanges:
         print(request_url)
         try:
             if response.status_code == 429:
-                print('Http code 429, trying againg in 10 seconds')
-                time.sleep(10)
+                print('Http code 429, trying againg in 2 seconds')
+                time.sleep(2)
             elif response.status_code == 200:
                 tickers = json.loads(response.text)['tickers']
         
