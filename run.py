@@ -52,7 +52,8 @@ for coin in coins:
     request_url = "https://api.coingecko.com/api/v3/coins/{}?localization=false&tickers=false&market_data=false&developer_data=false&sparkline=true".format(coin.id)
     exit = False
     loops = 0
-    while exit == False and loops < 10:
+    time.sleep(1)
+    while exit == False and loops < 20:
         loops+=1
         response = requests.get(request_url)
         try:
