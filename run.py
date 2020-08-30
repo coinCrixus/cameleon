@@ -54,34 +54,40 @@ exchanges = session.query(CoinGeckoExchange).all()
 
 for exchange in exchanges:
     print("processing exchange [{}]".format(exchange.name))
-    time.sleep(10)
+    time.sleep(1)
     pagenr = 1
     while pagenr > 0:
         request_url = "https://api.coingecko.com/api/v3/exchanges/{}/tickers?include_exchange_logo=true&page={}".format(exchange.id,pagenr)
         response = requests.get(request_url)
         try:
-            tickers = json.loads(response.text)['tickers']
+            if response.status_code == 429:
+                print('Http code 429, trying againg in 10 seconds')
+                time.sleep(10)
+            elif response.status_code == 200:
+                tickers = json.loads(response.text)['tickers']
         
-            if len(tickers) == 0 :
-                pagenr = 0
+                if len(tickers) == 0 :
+                    pagenr = 0
+                else:
+                    pagenr += 1
+                    for ticker in tickers:
+                        tickerObject = CoinGeckoTicker(exchange.id
+                        , ticker['coin_id'], ticker.get('target_coin_id','default')
+                        , ticker['base'], ticker['target']
+                        , ticker['last'], ticker['volume']
+                        , ticker['converted_last']['btc']
+                        , ticker['converted_last']['eth']
+                        , ticker['converted_last']['usd']
+                        , ticker['converted_volume']['btc']
+                        , ticker['converted_volume']['eth']
+                        , ticker['converted_volume']['usd']
+                        , ticker['trust_score'], ticker['bid_ask_spread_percentage'], ticker['timestamp']
+                        , ticker['last_traded_at'], ticker['last_fetch_at'], ticker['is_anomaly']
+                        , ticker['is_stale'], ticker['trade_url'],False)
+                        session.merge(tickerObject)
+                    session.commit()
             else:
-                pagenr += 1
-                for ticker in tickers:
-                    tickerObject = CoinGeckoTicker(exchange.id
-                    , ticker['coin_id'], ticker.get('target_coin_id','default')
-                    , ticker['base'], ticker['target']
-                    , ticker['last'], ticker['volume']
-                    , ticker['converted_last']['btc']
-                    , ticker['converted_last']['eth']
-                    , ticker['converted_last']['usd']
-                    , ticker['converted_volume']['btc']
-                    , ticker['converted_volume']['eth']
-                    , ticker['converted_volume']['usd']
-                    , ticker['trust_score'], ticker['bid_ask_spread_percentage'], ticker['timestamp']
-                    , ticker['last_traded_at'], ticker['last_fetch_at'], ticker['is_anomaly']
-                    , ticker['is_stale'], ticker['trade_url'],False)
-                    session.merge(tickerObject)
-                session.commit()
+                print("Error, httpcode {}".format(response.status_code))
         except:
             pagenr = 0
             print(response)
