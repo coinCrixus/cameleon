@@ -105,3 +105,72 @@ class CoinGeckoTicker(Base):
         self.is_stale             = is_stale
         self.trade_url            = trade_url
         self.deactivated          = deactivated
+
+class CoinGeckCoinData(Base):
+    __tablename__ = 'coingecko_coindata'
+    id                              = Column(String, primary_key=True)
+    asset_platform_id               = Column(String)
+    public_notice                   = Column(String)
+    homepage                        = Column(String)
+    twitter_screen_name             = Column(String)
+    telegram_channel_identifier     = Column(String)
+    image_url_thumb                 = Column(String)
+    image_url_small                 = Column(String)
+    image_url_large                 = Column(String)
+    country_origin                  = Column(String)
+    sentiment_votes_up_percentage   = Column(Numeric)
+    sentiment_votes_down_percentage = Column(Numeric)
+    market_cap_rank                 = Column(Numeric)
+    coingecko_rank                  = Column(Numeric)
+    coingecko_score                 = Column(Numeric)
+    developer_score                 = Column(Numeric)
+    community_score                 = Column(Numeric)
+    liquidity_score                 = Column(Numeric)
+    public_interest_score           = Column(Numeric)
+    twitter_followers               = Column(Numeric)
+    telegram_channel_user_count     = Column(Numeric)
+    created_at                      = Column(DateTime(timezone=True), default=func.now())
+    updated_at                      = Column(DateTime(timezone=True), default=func.now(), onupdate=func.now())
+    deactivated                     = Column(Boolean, default=False)
+
+    def __init__(self, id, asset_platform_id,public_notice,homepage,twitter_screen_name,telegram_channel_identifier,image_url_thumb,image_url_small,image_url_large
+                ,country_origin,sentiment_votes_up_percentage,sentiment_votes_down_percentage,market_cap_rank,coingecko_rank,coingecko_score,developer_score
+                ,community_score,liquidity_score,public_interest_score,twitter_followers,telegram_channel_user_count,deactivated):
+        self.id                                 = id
+        self.asset_platform_id                  = asset_platform_id
+        self.public_notice                      = public_notice
+        self.homepage                           = homepage
+        self.twitter_screen_name                = twitter_screen_name
+        self.telegram_channel_identifier        = telegram_channel_identifier
+        self.image_url_thumb                    = image_url_thumb
+        self.image_url_small                    = image_url_small
+        self.image_url_large                    = image_url_large
+        self.country_origin                     = country_origin
+        self.sentiment_votes_up_percentage      = sentiment_votes_up_percentage
+        self.sentiment_votes_down_percentage    = sentiment_votes_down_percentage
+        self.market_cap_rank                    = market_cap_rank
+        self.coingecko_rank                     = coingecko_rank
+        self.coingecko_score                    = coingecko_score
+        self.developer_score                    = developer_score
+        self.community_score                    = community_score
+        self.liquidity_score                    = liquidity_score
+        self.public_interest_score              = public_interest_score
+        self.twitter_followers                  = twitter_followers
+        self.telegram_channel_user_count        = telegram_channel_user_count
+        self.deactivated                        = deactivated
+
+class CoinGeckCoinTag(Base):
+    __tablename__ = 'coingecko_cointag'
+    coin_id         = Column(String, primary_key=True)
+    tag_group_id    = Column(String, primary_key=True)
+    tag_id          = Column(String, primary_key=True)
+    created_at                      = Column(DateTime(timezone=True), default=func.now())
+    updated_at                      = Column(DateTime(timezone=True), default=func.now(), onupdate=func.now())
+    deactivated                     = Column(Boolean, default=False)
+    
+    def __init__(self, coin_id, tag_group_id , tag_id, deactivated):
+        self.coin_id        = coin_id
+        self.tag_group_id   = tag_group_id
+        self.tag_id         = tag_id
+        self.deactivated    = deactivated
+        
