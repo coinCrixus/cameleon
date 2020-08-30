@@ -84,8 +84,8 @@ for exchange in exchanges:
                     pagenr += 1
                     for ticker in tickers:
                         tickerObject = CoinGeckoTicker(exchange.id
-                        , ticker['coin_id'], ticker.get('target_coin_id','default')
                         , ticker['base'], ticker['target']
+                        , ticker['coin_id'], ticker.get('target_coin_id','default')
                         , ticker['last'], ticker['volume']
                         , ticker['converted_last']['btc']
                         , ticker['converted_last']['eth']

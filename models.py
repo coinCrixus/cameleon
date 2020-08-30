@@ -56,10 +56,10 @@ class CoinGeckoExchange(Base):
 class CoinGeckoTicker(Base):
     __tablename__ = 'coingecko_ticker'
     exchange_id          = Column(String, primary_key=True)
-    base_coin_id         = Column(String, primary_key=True)
-    target_coin_id       = Column(String, primary_key=True)
-    base_currency        = Column(String)
-    target_currency      = Column(String)
+    base_currency        = Column(String, primary_key=True)
+    target_currency      = Column(String, primary_key=True)
+    base_coin_id         = Column(String)
+    target_coin_id       = Column(String)
     last_price           = Column(Numeric)
     volume               = Column(Numeric)
     converted_last_btc   = Column(Numeric)
@@ -80,14 +80,14 @@ class CoinGeckoTicker(Base):
     updated_at           = Column(DateTime(timezone=True), default=func.now(), onupdate=func.now())
     deactivated          = Column(Boolean, default=False)
 
-    def __init__(self, exchange_id, base_coin_id, target_coin_id, base_currency, target_currency, last_price, volume, converted_last_btc, converted_last_eth, converted_last_usd
+    def __init__(self, exchange_id, base_currency, target_currency, base_coin_id, target_coin_id, last_price, volume, converted_last_btc, converted_last_eth, converted_last_usd
             , converted_volume_btc, converted_volume_eth, converted_volume_usd, trust_score, bid_ask_spread_perc, timestamp, last_traded_at, last_fetch_at
             , is_anomaly, is_stale, trade_url, deactivated):
         self.exchange_id          = exchange_id
-        self.base_coin_id         = base_coin_id
-        self.target_coin_id       = target_coin_id
         self.base_currency        = base_currency
         self.target_currency      = target_currency
+        self.base_coin_id         = base_coin_id
+        self.target_coin_id       = target_coin_id
         self.last_price           = last_price
         self.volume               = volume
         self.converted_last_btc   = converted_last_btc
