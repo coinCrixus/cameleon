@@ -16,7 +16,7 @@ load_dotenv()
 from models import CoinGeckoCoin,CoinGeckoExchange,CoinGeckoTicker
 
 # logging
-logging.basicConfig(filename='example.log',level=os.getenv('LOG_LEVEL'),format='%(asctime)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S')
+logging.basicConfig(filename='example.log',level=os.getenv('LOG_LEVEL'),format='%(asctime)s - %(levelname)s:%(message)s', datefmt='%d-%b-%y %H:%M:%S')
 
 # setup db connection session
 db_string = os.getenv("DB_STRING")
@@ -30,7 +30,7 @@ session.query(CoinGeckoCoin).update({CoinGeckoCoin.deactivated: True})
 
 # get json coingecko coin list
 print("{} updating coingecko coin list".format(datetime.now()))
-logging.info("{} updating coingecko coin list".format(datetime.now()))
+logging.info("Updating coingecko coin list")
 response = requests.get("https://api.coingecko.com/api/v3/coins/list")
 coins    = json.loads(response.text)
 
@@ -45,6 +45,7 @@ session.query(CoinGeckoExchange).update({CoinGeckoExchange.deactivated: True})
 
 # get json coingecko exchange list
 print("{} updating coingecko exchange list".format(datetime.now() ) )
+logging.info("Updating coingecko exchange list")
 response = requests.get("https://api.coingecko.com/api/v3/exchanges")
 exchanges = json.loads(response.text)
 
@@ -62,6 +63,8 @@ exchanges = session.query(CoinGeckoExchange).all()
 
 for exchange in exchanges:
     print("{} processing exchange [{}]".format(datetime.now() ,exchange.name))
+    logging.info("processing exchange [{}]".format(exchange.name))
+
     time.sleep(1)
     pagenr = 1
     while pagenr > 0:
