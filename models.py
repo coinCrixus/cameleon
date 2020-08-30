@@ -56,8 +56,8 @@ class CoinGeckoExchange(Base):
 class CoinGeckoTicker(Base):
     __tablename__ = 'coingecko_ticker'
     exchange_id          = Column(String, primary_key=True)
-    base_currency        = Column(String, primary_key=True)
-    target_currency      = Column(String, primary_key=True)
+    base_currency        = Column(String)
+    target_currency      = Column(String)
     base_coin_id         = Column(String)
     target_coin_id       = Column(String)
     last_price           = Column(Numeric)
