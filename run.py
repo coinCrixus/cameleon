@@ -24,6 +24,7 @@ session = Session()
 session.query(CoinGeckoCoin).update({CoinGeckoCoin.deactivated: True})
 
 # get json coingecko coin list
+print("updating coingecko coin list")
 response = requests.get("https://api.coingecko.com/api/v3/coins/list")
 coins    = json.loads(response.text)
 
@@ -37,6 +38,7 @@ session.commit()
 session.query(CoinGeckoExchange).update({CoinGeckoExchange.deactivated: True})
 
 # get json coingecko exchange list
+print("updating coingecko exchange list")
 response = requests.get("https://api.coingecko.com/api/v3/exchanges")
 exchanges = json.loads(response.text)
 
