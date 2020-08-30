@@ -2,6 +2,8 @@ import os
 import json
 import requests
 import time
+import logging
+
 from datetime import datetime
 
 from sqlalchemy import create_engine
@@ -13,6 +15,8 @@ load_dotenv()
 
 from models import CoinGeckoCoin,CoinGeckoExchange,CoinGeckoTicker
 
+# logging
+logging.basicConfig(filename='example.log',level=os.getenv('LOG_LEVEL'),format='%(asctime)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S')
 
 # setup db connection session
 db_string = os.getenv("DB_STRING")
@@ -26,6 +30,7 @@ session.query(CoinGeckoCoin).update({CoinGeckoCoin.deactivated: True})
 
 # get json coingecko coin list
 print("{} updating coingecko coin list".format(datetime.now()))
+logging.info("{} updating coingecko coin list".format(datetime.now()))
 response = requests.get("https://api.coingecko.com/api/v3/coins/list")
 coins    = json.loads(response.text)
 
