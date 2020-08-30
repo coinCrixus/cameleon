@@ -62,7 +62,6 @@ for coin in coins:
                 coinDataObject = CoinGeckoCoinData(
                     coin.id,
                     coinData.get('asset_platform_id'),
-                    coinData.get('asset_platform_id'),
                     coinData.get('public_notice'),
                     coinData.get('links').get('homepage'),
                     coinData.get('links').get('twitter_screen_name'),
