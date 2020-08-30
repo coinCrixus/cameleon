@@ -55,11 +55,12 @@ for coin in coins:
     time.sleep(0.15)
     while exit == False and loops < 20:
         loops+=1
+        time.sleep(0.01)
         response = requests.get(request_url)
         try:
             if response.status_code == 429:
-                print('Http code 429, trying againg in 2 seconds')
-                time.sleep(2)
+                print('Http code 429, trying again in 5 seconds')
+                time.sleep(5)
             elif response.status_code == 200:
                 coinData = json.loads(response.text)
                 coinDataObject = CoinGeckoCoinData(
