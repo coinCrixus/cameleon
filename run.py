@@ -59,6 +59,7 @@ for exchange in exchanges:
     while pagenr > 0:
         request_url = "https://api.coingecko.com/api/v3/exchanges/{}/tickers?include_exchange_logo=true&page={}".format(exchange.id,pagenr)
         response = requests.get(request_url)
+        print(request_url)
         try:
             if response.status_code == 429:
                 print('Http code 429, trying againg in 10 seconds')
