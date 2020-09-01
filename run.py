@@ -67,7 +67,7 @@ for coin in coins:
                     coin.id,
                     coinData.get('asset_platform_id'),
                     coinData.get('public_notice'),
-                    coinData.get('links').get('homepage'),
+                    coinData.get('links').get('homepage')[0],
                     coinData.get('links').get('twitter_screen_name'),
                     coinData.get('links').get('telegram_channel_identifier'),
                     coinData.get('image').get('thumb'),
@@ -85,7 +85,7 @@ for coin in coins:
                     coinData.get('public_interest_score'),
                     coinData.get('community_data').get('twitter_followers'),
                     coinData.get('community_data').get('telegram_channel_user_count'),
-                    True)
+                    False)
                 session.merge(coinDataObject)
                 
 
