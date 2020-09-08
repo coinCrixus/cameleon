@@ -1,5 +1,7 @@
 import os
 import telegram
+from dotenv import load_dotenv
+load_dotenv()
 
 msg = 'Hello btc world!'
 # use token generated in first step
