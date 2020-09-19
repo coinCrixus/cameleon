@@ -18,10 +18,10 @@ url = 'https://api.etherscan.io/api?module=account&action=tokentx&contractaddres
 print(url)
 response = requests.get(url)
 
-with open('check_rsr_last_block.txt', 'r') as f:
-    lines = f.read().splitlines()
-    check_rsr_last_block = lines[-1]
-    print(check_rsr_last_block)
+f = open('check_rsr_last_block.txt', 'a+') 
+lines = f.read().splitlines()
+check_rsr_last_block = lines[-1]
+#print(check_rsr_last_block)
 
 try:
     if response.status_code != 200:
@@ -39,6 +39,7 @@ try:
         if lastBlockNumber != check_rsr_last_block:
             txnUrl = 'https://etherscan.io/tx/{}'.format(txnHash)
             sendMessageTelegramChannel.sendTelegramMessage('RSR wallet check: last transaction seen blockNumber {} tokens {}, see {}'.format(blockNumber,tokens,txnUrl))
+            f.write(lastBlockNumber)
 
 except Exception as exc:
             print("Error {}".format(exc) )
