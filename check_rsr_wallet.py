@@ -32,12 +32,13 @@ try:
         result = json.get('result')
         for txn in result:
             blockNumber = txn.get('blockNumber')
+            txnHash = txn.get('hash')
             tokens = int(txn.get('value')) / (10**int(txn.get('tokenDecimal')))
             print('blocknumber{} ,tokens {}'.format(blockNumber,tokens) )
         lastBlockNumber = blockNumber
         if lastBlockNumber != check_rsr_last_block:
-            print('hi')
-            sendMessageTelegramChannel.sendTelegramMessage('hi there')
+            txnUrl = 'https://etherscan.io/tx/{}'.format(txnHash)
+            sendMessageTelegramChannel.sendTelegramMessage('RSR wallet check: last transaction seen blockNumber {} tokens {}, see {}'.format(blockNumber,tokens,txnUrl))
 
 except Exception as exc:
             print("Error {}".format(exc) )
