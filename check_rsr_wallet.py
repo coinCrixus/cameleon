@@ -40,7 +40,7 @@ try:
             txnUrl = 'https://etherscan.io/tx/{}'.format(txnHash)
             sendMessageTelegramChannel.sendTelegramMessage('RSR wallet check: last transaction seen blockNumber {} tokens {}, see {}'.format(blockNumber,tokens,txnUrl))
             with open('check_rsr_last_block.txt', 'a+') as f: 
-                f.write(lastBlockNumber)
+                f.write('{}\n'.format(lastBlockNumber))
 
 except Exception as exc:
             print("Error {}".format(exc) )
